@@ -22,6 +22,27 @@ def login():
             login_user(user, remember=True)
             return redirect(url_for('index'))
     return render_template('login.html', title='Sign In')
+
+    
+@app.route('/register',methods=['GET', 'POST'])
+def register():
+    if request.method=='POST':
+        email = request.form.get('email')
+        username = request.form.get('username')
+        cpassword = request.form.get('cpassword')
+        password = request.form.get('password')
+        if username & password:
+            pass
+    return render_template('register.html', title='Sign Up page')
+
+
+@app.route('/forgot',methods=['GET', 'POST'])
+def forgot():
+    if request.method=='POST':
+        email = request.form.get('email')
+        if email:
+            pass
+    return render_template('forgot.html', title='Password reset page')
     
 
 @app.route('/logout')
