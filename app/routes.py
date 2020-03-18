@@ -1,6 +1,6 @@
 from flask import render_template,redirect,request,flash,session,url_for
 from flask_login import logout_user,current_user, login_user, login_required
-from app import app
+from app import app,db
 from app.models import User
 
 @app.route('/')
@@ -14,10 +14,10 @@ def login():
     if request.method=='POST':
         username = request.form.get('username')
         password = request.form.get('password')
-        if username & password:
+        if username and password:
             user = User.query.filter_by(username=username).first()
             if user is None or not user.check_password(password):
-                flash('Invalid username or password')
+                flash('Invalid username or password','danger')
                 return redirect(url_for('login'))
             login_user(user, remember=True)
             return redirect(url_for('index'))
@@ -31,8 +31,29 @@ def register():
         username = request.form.get('username')
         cpassword = request.form.get('cpassword')
         password = request.form.get('password')
-        if username & password:
-            pass
+        print(cpassword, password, cpassword==password)
+        if username and password and cpassword and email:
+            if cpassword != password:
+                flash('Password do not match','danger')
+                return redirect('/register')
+            else:
+                if User.query.filter_by(email=email).first() is not None:
+                    flash('Please use a different email address','danger')
+                    return redirect('/register')
+                elif User.query.filter_by(username=username).first() is not None:
+                    flash('Please use a different username','danger')
+                    return redirect('/register')
+                else:
+                    user = User(username=username, email=email)
+                    user.set_password(password)
+                    db.session.add(user)
+                    db.session.commit()
+                    flash('Congratulations, you are now a registered user!','success')
+                    return redirect(url_for('login'))
+        else:
+            flash('Fill all the fields','danger')
+            return redirect('/register')
+
     return render_template('register.html', title='Sign Up page')
 
 

@@ -10,14 +10,11 @@
 
 
 {% block body %}
-<div class="jumbotron jumbotron-fluid py-3" style="background-image: linear-gradient(45deg,rgb(54, 111, 243),rgb(207, 29, 118));">
-  <div class="container">
-    <h1 class="display-4 text-white text-center">Project Home</h1>
-  </div>
-</div>
+
 <div class="container">
   <div class="row justify-items-center">
     <div class="col-md-6 mt-1 mx-auto">
+        {% include "notify.html" %}
       <div class="card shadow-lg border-0">
         <div class="card-header">
           <h3 class="display-4"><i class="fas fa-user-shield text-primary"></i>  Sign up Free </h3>
@@ -53,7 +50,7 @@
                 </div>
                 <input type="password" class="form-control" name="password" id="password" aria-describedby="passwordHelpId" placeholder="the password">
               </div>
-              <small id="passwordHelpId" class="form-text text-muted">length must be between 6 chars to 64 chars</small>
+              <small id="passwordHelpId" class="form-text text-muted">alphnumeric values and special symbols are allowed</small>
             </div>
             <div class="form-group">
               <label for="cpassword">Password</label>
@@ -61,8 +58,9 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text bg-primary" id="basic-addon4"><i class="fas fa-key text-white"></i></span>
                 </div>
-                <input type="password" class="form-control" name="password" id="cpassword" aria-describedby="cpassword" placeholder="confirm password">
+                <input type="password" class="form-control" name="cpassword" id="cpassword" aria-describedby="cpassword" placeholder="confirm password">
               </div>
+              <small id="passwordHelpId" class="form-text text-muted">password must match confirm password</small>
             </div>
             
             <button class="btn btn-outline-primary btn-lg btn-block mt-1 mb-1">Create account <i class="fa fa-arrow-right" aria-hidden="true"></i> </button>
