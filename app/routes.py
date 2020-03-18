@@ -2,6 +2,7 @@ from flask import render_template,redirect,request,flash,session,url_for
 from flask_login import logout_user,current_user, login_user, login_required
 from app import app,db
 from app.models import User
+from datetime import datetime
 
 @app.route('/')
 @app.route('/index')
@@ -70,3 +71,27 @@ def forgot():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+@login_required
+@app.route('/user/<username>')
+def user(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    return render_template('profile.html', user=user, title=f'{user.username} profile')
+
+
+@app.before_request
+def before_request():
+    if current_user.is_authenticated:
+        current_user.last_seen = datetime.utcnow()
+        db.session.commit()
+
+@app.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    if request.method=='POST':
+        current_user.username = request.form.get('username')
+        current_user.about_me = request.form.get('aboutme')
+        db.session.commit()
+        flash('Your changes have been saved.','success')
+        return redirect(url_for('edit_profile'))
+    return render_template('edit_profile.html', title='Edit Profile',user=user)
