@@ -39,3 +39,16 @@ class Post(db.Model):
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
+class MyUpload(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    img = db.Column(db.String(255))
+    imgtype = db.Column(db.String(4))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    created_on = db.Column(db.DateTime, index=True, default=datetime.now)
+
+    def __repr__(self):
+        return self.img
+
+
+

@@ -6,7 +6,7 @@ code templates demo for project on flask, containing a default login system for 
 
 please use the requirments.txt to install dependencies
 
-`pip install -r requirments.txt`
+`pip install -r requirements.txt`
 
 ## to run app
 
