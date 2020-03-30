@@ -1,7 +1,7 @@
 from flask import render_template,redirect,request,flash,session,url_for
 from flask_login import logout_user,current_user, login_user, login_required
 from app import app,db
-from app.models import User
+from app.models import User, MessageData
 from datetime import datetime
 
 @app.route('/')
@@ -95,3 +95,21 @@ def edit_profile():
         flash('Your changes have been saved.','success')
         return redirect(url_for('edit_profile'))
     return render_template('edit_profile.html', title='Edit Profile',user=user)
+
+
+@app.route('/input',methods=['GET','POST'])
+def input_page():
+    if request.method =='POST':
+        msg = request.form.get('msg')
+        if msg: # not none
+            if len(msg) >= 10: # just some validation
+                msgObj = MessageData(message=msg)   # add data to model object
+                db.session.add(msgObj)              # save data in database
+                db.session.commit()                 # update database
+                # prediction logic
+                flash('we have saved ur data, prediction result will be available shortly','success')
+            else:
+                flash('message smaller than 10 characters cannot be predicted','danger')
+        else:
+            flash('message not provided, please fill in some data to predict')
+    return render_template('input.html',title="Input data")

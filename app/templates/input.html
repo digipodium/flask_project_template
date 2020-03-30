@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block css %}
+
+{% endblock %}
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-sm-9 mx-auto mt-5">
+            {% include "notify.html" %}
+            <div class="card">
+                <div class="card-header">
+                    <div class="display-4">Prediction System</div>
+                    <p class="lead">enter the data that you want to predict</p>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="form-group">
+                          <label for="msg">DATA</label>
+                          <div class="form-group">
+                            <label for="msg">in the box</label>
+                            <textarea class="form-control" name="msg" id="msg" rows="7" placeholder="write here something and the ai will predict fake or not"></textarea>
+                          </div>
+                          <small id="msghelp" class="form-text text-muted">enter valid data</small>
+                        </div>
+                        <div class="form-group">
+                            <button  class="btn btn-success btn-lg">Submit</button>
+                        </div>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

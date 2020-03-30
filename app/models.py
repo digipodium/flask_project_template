@@ -50,5 +50,19 @@ class MyUpload(db.Model):
     def __repr__(self):
         return self.img
 
+class Question(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(255))
+    prediction = db.Column(db.Integer)
+    created_on = db.Column(db.DateTime, index=True, default=datetime.now)
+
+class MessageData(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    message = db.Column(db.String)
+    prediction = db.Column(db.Integer, nullable=True)
+    created_on = db.Column(db.DateTime, index=True, default=datetime.now)
+    
+    def __repr__(self):
+        return self.message
 
 
