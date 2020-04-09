@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block css %}
+
+{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-8 mx-auto mt-5">
+            {% include "notify.html" %}
+            <form class="card" method="post" enctype="multipart/form-data">
+                <div class="card-header">
+                    <p class="lead">please browse image to upload</p>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                      <label for="imageId">Image</label>
+                      <input type="file" name="file" class="form-control-file" name="imageId" id="imageId" placeholder="browse the image" aria-describedby="imageHelp">
+                      <small id="imageHelp" class="form-text text-muted">please select image below 2mb</small>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary">submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <img class="card-img-top" src="{{session['uploaded_file']}}" alt="" height="400">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

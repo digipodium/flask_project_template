@@ -1,8 +1,10 @@
 from flask import render_template,redirect,request,flash,session,url_for
 from flask_login import logout_user,current_user, login_user, login_required
 from app import app,db
-from app.models import User, MessageData
+from app.models import User, MessageData, MyUpload
 from datetime import datetime
+from werkzeug.utils import secure_filename
+import os
 
 @app.route('/')
 @app.route('/index')
@@ -113,3 +115,34 @@ def input_page():
         else:
             flash('message not provided, please fill in some data to predict')
     return render_template('input.html',title="Input data")
+
+
+def allowed_files(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+
+@app.route('/upload', methods=['GET','POST'])
+def uploadImage():
+    if request.method == 'POST':
+        print(request.files)
+        if 'file' not in request.files:
+            flash('No file uploaded','danger')
+            return redirect(request.url)
+        file = request.files['file']
+        if file.filename == '':
+            flash('no file selected','danger')
+            return redirect(request.url)
+        if file and allowed_files(file.filename):
+            print(file.filename)
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename ))
+            upload = MyUpload(img =f"/static/uploads/{filename}", imgtype = os.path.splitext(file.filename)[1],user_id=current_user.id)
+            db.session.add(upload)
+            db.session.commit()
+            flash('file uploaded and saved','success')
+            session['uploaded_file'] = f"/static/uploads/{filename}"
+            return redirect(request.url)
+        else:
+            flash('wrong file selected, only PNG and JPG images allowed','danger')
+            return redirect(request.url)
+   
+    return render_template('upload.html',title='upload new Image')
