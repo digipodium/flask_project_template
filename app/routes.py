@@ -1,7 +1,7 @@
 from flask import render_template,redirect,request,flash,session,url_for
 from flask_login import logout_user,current_user, login_user, login_required
 from app import app,db
-from app.models import User, MessageData, MyUpload
+from app.models import User, MessageData, MyUpload, Info
 from datetime import datetime
 from werkzeug.utils import secure_filename
 import os
@@ -34,7 +34,7 @@ def register():
         username = request.form.get('username')
         cpassword = request.form.get('cpassword')
         password = request.form.get('password')
-        print(cpassword, password, cpassword==password)
+        # print(cpassword, password, cpassword==password)
         if username and password and cpassword and email:
             if cpassword != password:
                 flash('Password do not match','danger')
@@ -146,3 +146,7 @@ def uploadImage():
             return redirect(request.url)
    
     return render_template('upload.html',title='upload new Image')
+
+@app.route('/hello')
+def helloworld():
+    return render_template('helloworld.html')

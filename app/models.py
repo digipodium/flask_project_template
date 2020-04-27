@@ -52,3 +52,13 @@ class MessageData(db.Model):
         return self.message
 
 
+class Info(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+    category = db.Column(db.String(10))
+    location = db.Column(db.String)
+    created_on = db.Column(db.DateTime, index=True, default=datetime.now)
+
+    def __repr__(self):
+        return self.name
+
