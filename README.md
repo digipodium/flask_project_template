@@ -1,6 +1,8 @@
 <center><img src="screens/logo.png" height="100">
 </center>
 
+[![trophy](https://github-profile-trophy.vercel.app/?username=zaid-kamil)](https://github.com/ryo-ma/github-profile-trophy)
+
 # flask_project_template
 code templates demo for project on flask, containing a default login system for user to login, register and reset password
 
